@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Mensagem para Fonseca</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            font-family: 'Comic Neue', cursive;
+            background-color: #ffe4e9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: #d62852;
+            text-align: center;
+        }
+
+        .fullscreen {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        button {
+            padding: 15px 30px;
+            margin: 10px;
+            background-color: #ff4d6d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 22px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        input {
+            padding: 12px;
+            margin: 8px;
+            border: 1px solid #ff8fb1;
+            border-radius: 8px;
+            font-size: 20px;
+            text-align: center;
+            width: 80%;
+        }
+
+        .message-box {
+            background-color: #ff8fb1;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px;
+            animation: blink 1s infinite;
+        }
+
+        .image-box {
+            margin-top: 20px;
+        }
+
+        .image-box img {
+            border: 5px solid #ff8fb1;
+            border-radius: 15px;
+            max-width: 90%;
+            box-shadow: 0 0 10px #ff4d6d;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="inicio" class="fullscreen">
+        <h2>Você quer receber essa mensagem?</h2>
+        <button onclick="resposta('nao')">Não</button>
+        <button onclick="resposta('sim')">Sim</button>
+    </div>
+
+    <div id="formulario" class="fullscreen hidden">
+        <h2>Preencha suas informações:</h2>
+        <input type="text" id="nome" placeholder="Nome" required>
+        <input type="number" id="idade" placeholder="Idade" required>
+        <input type="number" id="beleza" placeholder="Nível de beleza (0 a 10)" min="0" required>
+        <button onclick="verificarFormulario()">Enviar</button>
+    </div>
+
+    <div id="senha" class="fullscreen hidden">
+        <h2>Digite a senha para continuar:</h2>
+        <input type="password" id="senhaInput" placeholder="Senha" required>
+        <button onclick="verificarSenha()">Verificar</button>
+    </div>
+
+    <div id="mensagem" class="fullscreen hidden">
+        <div class="message-box">
+            <h2>Feliz aniversário, meu amooooooooor!</h2>
+            <p>Quero te desejar tudo de melhor nessa nova fase: muita alegria, saúde, amor (pq tá difícil pra você, hein) e conquistas. Você merece o mundo, porque é uma amiga incrível, sempre presente e cheia de energia boa. Sou muito grato por ter você na minha vida e por compartilhar tantos momentos especiais ao meu lado. Obrigado por tudo! Saiba que você é muito importante pra mim e quero passar muitos aniversários ao seu lado, comemorando e aproveitando juntos. Lembre-se que agora você é de maior e já pode ser presa, então vê se não faz nenhuma besteira! Você é quase perfeita, só faltava ser rubro-negra pra gente poder ir pro Barradão juntos! Apesar de você ter quase me falido, eu te amo demais!</p>
+            <div class="image-box">
+                <img src="https://cdn.discordapp.com/attachments/1357499673660625050/1357499846541578370/IMG_5366.jpg" alt="Foto nossa com borda de flores">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let tentativas = 0;
+        const dicas = [
+            "Faço todo dia",
+            "Está relacionado a você e não consigo parar",
+            "A junção do pronome pessoal oblíquo átono da segunda pessoa do singular com a flexão do verbo amar"
+        ];
+
+        function resposta(opcao) {
+            if (opcao === 'sim') {
+                document.getElementById('inicio').classList.add('hidden');
+                document.getElementById('formulario').classList.remove('hidden');
+            } else {
+                alert("Erro - Você não tem querer, eu que fiz o código!");
+            }
+        }
+
+        function verificarFormulario() {
+            const nome = document.getElementById('nome').value.toLowerCase();
+            const idade = parseInt(document.getElementById('idade').value);
+            const beleza = parseInt(document.getElementById('beleza').value);
+
+            if (nome !== "isabela") {
+                alert("Se você não é Isabela, esse texto não é pra você");
+            } else if (idade !== 18) {
+                alert("Está mentindo a idade? Mentira é pecado, vigia Isabela.");
+            } else if (beleza < 10) {
+                alert("Você está mentindo na beleza.");
+            } else if (beleza > 10) {
+                alert("Nota 10 para sua beleza é pouco.");
+                document.getElementById('formulario').classList.add('hidden');
+                document.getElementById('senha').classList.remove('hidden');
+            } else {
+                document.getElementById('formulario').classList.add('hidden');
+                document.getElementById('senha').classList.remove('hidden');
+            }
+        }
+
+        function verificarSenha() {
+            const senha = document.getElementById('senhaInput').value.toLowerCase();
+
+            if (senha === "te amar") {
+                mostrarMensagem();
+            } else {
+                if (tentativas < dicas.length) {
+                    alert("Dica: " + dicas[tentativas]);
+                    tentativas++;
+                } else {
+                    alert("Tu é muito burra, né?");
+                    mostrarMensagem();
+                }
+            }
+        }
+
+        function mostrarMensagem() {
+            document.getElementById('senha').classList.add('hidden');
+            document.getElementById('mensagem').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
